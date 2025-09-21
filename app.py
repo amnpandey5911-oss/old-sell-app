@@ -162,7 +162,9 @@ def sell_item():
         price = float(request.form['price'])
         currency = request.form.get('currency', 'INR')
         location = request.form['location']
-        file = request.files['image']
+        
+        # Ye line ab sahi hai, dost!
+        file = request.files.get('image')
         
         filename = None
         if file and allowed_file(file.filename):
