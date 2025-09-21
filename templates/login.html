@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ _('Login') }} - OLD SELL{% endblock %}
+{% block content %}
+<h2>{{ _('Login') }}</h2>
+<form method="post" class="w-50 mx-auto">
+  <div class="mb-3">
+    <label for="login_input" class="form-label">{{ _('Username / Email / Phone') }}</label>
+    <input type="text" class="form-control" id="login_input" name="login_input" required>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">{{ _('Password') }}</label>
+    <input type="password" class="form-control" id="password" name="password" required>
+  </div>
+  <button type="submit" class="btn btn-primary">{{ _('Login') }}</button>
+</form>
+<p class="text-center mt-3"><a href="{{ url_for('register') }}">{{ _('Register here') }}</a></p>
+{% endblock %}

@@ -1,0 +1,65 @@
+// {% extends "base.html" %}
+{% block title %}{{ _('Sell Item') }} - OLD SELL{% endblock %}
+{% block content %}
+<h2>{{ _('Sell Your Item') }}</h2>
+<form method="post" enctype="multipart/form-data" class="w-50 mx-auto">
+  <div class="mb-3">
+    <label for="title" class="form-label">{{ _('Title') }}</label>
+    <input type="text" class="form-control" id="title" name="title" required>
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">{{ _('Description') }}</label>
+    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="price" class="form-label">{{ _('Price (INR)') }}</label>
+    <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+  </div>
+  <div class="mb-3">
+    <label for="location" class="form-label">{{ _('Location') }}</label>
+    <input type="text" class="form-control" id="location" name="location" placeholder="{{ _('Enter your exact location') }}" required autocomplete="off">
+  </div>
+
+  <!-- Hidden fields for latitude and longitude -->
+  <input type="hidden" id="latitude" name="latitude">
+  <input type="hidden" id="longitude" name="longitude">
+
+  <div class="mb-3">
+    <label for="image" class="form-label">{{ _('Image (optional)') }}</label>
+    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+  </div>
+  <button type="submit" class="btn btn-success">{{ _('List Item') }}</button>
+</form>
+
+<!-- Google Maps JavaScript API with Places library -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&language={{ current_locale }}"></script>
+
+<script>
+  function initAutocomplete() {
+    var input = document.getElementById('location');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+
+    autocomplete.setFields(['geometry', 'formatted_address']);
+
+    autocomplete.addListener('place_changed', function() {
+      var place = autocomplete.getPlace();
+      if (!place.geometry) {
+        // User did not select a prediction; reset lat/lng
+        document.getElementById('latitude').value = '';
+        document.getElementById('longitude').value = '';
+        return;
+      }
+
+      // Set latitude and longitude in hidden inputs
+      document.getElementById('latitude').value = place.geometry.location.lat();
+      document.getElementById('longitude').value = place.geometry.location.lng();
+
+      // Optionally update location input with formatted address
+      document.getElementById('location').value = place.formatted_address;
+    });
+  }
+
+  // Initialize autocomplete on window load
+  google.maps.event.addDomListener(window, 'load', initAutocomplete);
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+// {% extends "base.html" %}
+{% block title %}{{ _('Buy Item') }} - OLD SELL{% endblock %}
+{% block content %}
+<h2>{{ _('Buy Item') }}</h2>
+<div class="card w-50 mx-auto">
+  {% if item.image_filename %}
+    <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" class="card-img-top" alt="{{ item.title }}">
+  {% endif %}
+  <div class="card-body">
+    <h5 class="card-title">{{ item.title }}</h5>
+    <p class="card-text">{{ item.description }}</p>
+    <p><strong>{{ currency_symbols.get(item.currency, '') }}{{ item.price }}</strong></p>
+    <p><small>{{ _('Seller') }}: {{ item.seller.username }}</small></p>
+    <form method="post">
+      <button type="submit" class="btn btn-success">{{ _('Pay with Paytm') }}</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

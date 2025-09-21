@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>{{ _('Redirecting to Paytm') }}</title></head>
+<body onload="document.forms[0].submit()">
+    <form method="post" action="{{ paytm_url }}">
+        {% for key, value in paytm_params.items() %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+    </form>
+    <p>{{ _('Redirecting to Paytm...') }}</p>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ _('Home') }} - OLD SELL{% endblock %}
+{% block content %}
+<h1>{{ _('Items for Sale') }}</h1>
+{% if items %}
+  <div class="row">
+    {% for item in items %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          {% if item.image_filename %}
+            <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" class="card-img-top" alt="{{ item.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text">{{ item.description|truncate(100) }}</p>
+            <p><strong>{{ currency_symbols.get(item.currency, '') }}{{ item.price }}</strong></p>
+            <p><small>{{ _('Location') }}: {{ item.location }}</small></p>
+            <p><small>{{ _('Seller') }}: {{ item.seller.username }}</small></p>
+            <a href="{{ url_for('buy', item_id=item.id) }}" class="btn btn-primary">{{ _('Buy') }}</a>
+            {% if current_user.is_authenticated and current_user.id != item.seller.id %}
+              <a href="{{ url_for('chat', user_id=item.seller.id) }}" class="btn btn-secondary">{{ _('Chat Seller') }}</a>
+            {% endif %}
+            {% if current_user.is_authenticated and current_user.is_admin %}
+              <a href="{{ url_for('admin_edit', item_id=item.id) }}" class="btn btn-danger">{{ _('Edit (Admin)') }}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>{{ _('No items listed yet.') }}</p>
+{% endif %}
+{% endblock %}

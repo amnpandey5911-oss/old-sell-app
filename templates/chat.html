@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ _('Chat with') }} {{ to_user.username }} - OLD SELL{% endblock %}
+{% block content %}
+<h2>{{ _('Chat with') }} {{ to_user.username }}</h2>
+<div class="border p-3 mb-3" style="height: 300px; overflow-y: scroll;">
+  {% if chat_messages %}
+    {% for msg in chat_messages %}
+      <p><strong>{{ msg.from_user.username }}:</strong> {{ msg.message }}</p>
+    {% endfor %}
+  {% else %}
+    <p>{{ _('No messages yet.') }}</p>
+  {% endif %}
+</div>
+<form method="post" class="d-flex">
+  <input type="text" name="message" class="form-control me-2" placeholder="{{ _('Type your message') }}" required>
+  <button type="submit" class="btn btn-primary">{{ _('Send') }}</button>
+</form>
+{% endblock %}
